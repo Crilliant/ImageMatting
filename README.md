@@ -1,8 +1,8 @@
 # ImageMatting
 
-本仓库为WHU2022年六月第三学期实训，图像前景分隔。
+本仓库为WHU2022年六月第三学期实训项目，图像前景分隔。
 
-<img src="img/logo.png" alt="logo" style="zoom: 23%;" />
+<img src="img/logo.png" alt="logo" style="zoom: 13%;" />
 
 ---
 
