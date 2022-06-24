@@ -1,15 +1,15 @@
-from flask import Flask, render_template
-from BluePeints.image_transfer import bp as transfer
+from flask import Flask, Response
+from BluePoints.image_transfer import bp as transfer
 
 app = Flask(__name__)
 
 app.register_blueprint(transfer)
 
 
-@app.route('/')
+@app.route('/test', methods=['POST'])
 def index():
-    return 'test'
+    return Response('test')
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

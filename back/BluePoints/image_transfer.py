@@ -2,7 +2,7 @@ import flask
 import os
 from flask import Blueprint, request, jsonify
 from back.config import image_upload_path, image_download_path
-from back.BluePeints.utils import generate_image_name
+from back.BluePoints.utils import generate_image_name
 
 bp = Blueprint('transfer', __name__, url_prefix='/api/image')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'JPG', 'PNG'}
@@ -12,11 +12,10 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1) in ALLOWED_EXTENSIONS
 
 
-# TODO: 传入要做的处理类型
 @bp.route('/upload', methods=['POST'])
 def upload_image():
     try:
-        img = request.files.get('image')
+        img = request.files.get('file')
         file_extension = '.' + img.filename.split('.')[1]
         new_file_name = generate_image_name() + file_extension
         file_path = os.path.join(image_upload_path, new_file_name)
@@ -26,7 +25,6 @@ def upload_image():
         return jsonify({'status': 'failed', 'message': str(err)})
 
 
-# TODO: 传出处理的类型
 @bp.route('/download', methods=['POST'])
 def download_image():
     filename = os.path.join(image_download_path, request.get_json().get('filename'))
@@ -41,9 +39,9 @@ def download_image():
 
 
 # TODO: 根据处理类型调用服务
-@bp.route('/segment')
+@bp.route('/segment', methods=['POST'])
 def segment_image():
-    pass
+    return jsonify({'status': 'success'})
 
 
 # TODO: 什么适合删除需要讨论
