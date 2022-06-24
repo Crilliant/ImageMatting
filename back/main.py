@@ -4,6 +4,7 @@ app = Flask(__name__)
 
 @app.route('/admin')
 def hello_admin():
+   print("a message was accepted")
    return 'Hello Admin'
 
 
@@ -13,7 +14,7 @@ def hello_guest(guest):
 
 
 @app.route('/user/<name>')
-def hello_user(name):
+def hello_user(name,request):
    if name =='admin':
       return redirect(url_for('hello_admin'))
    else:
