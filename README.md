@@ -14,6 +14,7 @@
 
 ### 工程结构
 
+```
 ├─back
 ├─front
 │  ├─public
@@ -26,7 +27,7 @@
 ├─img
 └─server
     ├─model
-    │  └─\__pycache__
+    │  └─__pycache__
     ├─saved_models
     │  └─u2netp	：保存的模型参数
     └─test_data	：用于测试的图片数据
@@ -35,6 +36,9 @@
         ├─test_human_images
         ├─test_images
         └─u2netp_results
+```
+
+
 
 
 
