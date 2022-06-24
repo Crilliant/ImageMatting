@@ -5,12 +5,15 @@
 <!--  </div>-->
   <!--上面部分-->
   <div class="up" v-if="model=='main'">
+
     <div class="in1">
+      <form enctype="multipart/form-data" method="post">
       <p type="primary" class="main-submit">提交图片</p>
       <input ref="relFile" class="main-upload" type="file" :multiple="multiple" :accept="accept" @change="loadpic" >
       <div class="imgBox">
         <img id="cropedBigImg" :src="imageUrl" value='custom' alt="lorem ipsum dolor sit" data-address='' title="自定义背景"/>
       </div>
+    </form>
       <button @click="loadpic_button" class="b1">点击上传图片</button>
     </div>
   </div>
@@ -93,7 +96,7 @@ export default {
   },data(){
     return{
       model:"main",
-      imageUrl:"https://img-blog.csdnimg.cn/c2a88529e4d942aa8f561498826057ba.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU3V5dW9h,size_20,color_FFFFFF,t_70,g_se,x_16"
+      imageUrl:""
 
 
     }
@@ -105,7 +108,9 @@ export default {
       request.post('/user',{}).then()
     },
     process_person(){
-      this.model='person_photo'
+      this.model='person_photo';
+      request.post('/user',{file:this.imageUrl}).then()
+
     },
     process_goods(){
       this.model='goods_photo'
@@ -114,16 +119,16 @@ export default {
       this.model='identification'
     },
     loadpic(e){
-      console.log(e.target.files[0])
+      //console.log(e.target.files[0])
       const reader = new FileReader()
 
       reader.readAsDataURL(e.target.files[0])
 
       reader.onload = () => {
         const _base64 = reader.result
-
         this.imageUrl = _base64 //将_base64赋值给图片的src，实现图片预览
-
+        //console.log(_base64)
+        console.log(this.imageUrl)
       }
     },
     loadpic_button() {
@@ -161,13 +166,13 @@ export default {
   margin-left: 10%;
 }
 .in1{
-  width: 300px;
-  height: 200px;
+  width: 250px;
+  height: 300px;
   background-image: url('../assets/2.png');
   background-size: 100% 100%;
   margin-left:60% ;
   position: absolute;
-  margin-top: 120px;
+  margin-top: 70px;
 }
 
 .main-submit{
@@ -194,8 +199,6 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
   outline: none;
   filter:alpha(opacity=0);
   -moz-opacity:0;
@@ -203,12 +206,13 @@ export default {
   opacity: 0;
 }
 .imgBox{
+  display: table-cell;
+  vertical-align: middle;
   height: 300px;
   width: 400px;
 }
 #cropedBigImg{
-  width: 100%;
-  height:auto;
+  width: 250px;
 }
 /*选择图片按钮*/
 .b1{
@@ -217,8 +221,8 @@ export default {
   color: white;
   background-color: rgb(69, 69, 198);
   position: absolute;
-  margin-top: 220px;
-  margin-left: 75px;
+  margin-top: 10px;
+  margin-left: 60px;
   border-radius: 12px;
 }
 
