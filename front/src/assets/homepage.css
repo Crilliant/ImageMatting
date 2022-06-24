@@ -1,0 +1,321 @@
+/*主模块*/
+.main{
+  width: 80%;
+   height: 490px;
+   background-image: url('/src/assets/1.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+   position: relative;
+    margin-left: 10%;
+}
+
+.main-photo{
+    display: inline-block;
+    padding: 30px 50px;
+    overflow: hidden;
+   width: 300px;
+   height: 200px;
+   background-image: url('/src/assets/2.png');
+   background-size: 100% 100%;
+   margin-left:60%;
+   position: absolute;
+   margin-top: 120px;
+}
+
+.main-submit{
+   text-align: center;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 30px;
+   font-weight: 500;
+   color: aqua;
+  position: absolute;
+  margin-top: 100px;
+  margin-left: 90px;
+}
+
+.main-submit:hover{
+    transition: background 180ms;
+}
+
+.main-upload{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    color: aqua;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    outline: none;
+    filter:alpha(opacity=0);
+    -moz-opacity:0;
+    -khtml-opacity: 0;
+    opacity: 0;
+}
+
+.file-box{
+    display: inline-block;
+    position: relative;
+    padding: 30px 50px;
+    overflow: hidden;
+    color:#fff;
+    background-color: #ccc;
+}
+.file-btn{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    outline: none;
+    background-color: transparent;
+    filter:alpha(opacity=0);
+    -moz-opacity:0;
+    -khtml-opacity: 0;
+    opacity: 0;
+}
+.main-select{
+    width: 150px;
+    height: 50px;
+    color: white;
+    background-color: rgb(69, 69, 198);
+    position: absolute;
+    margin-top: 220px;
+    margin-left: 75px;
+    border-radius: 12px;
+}
+
+.main-select:hover{
+    background-color: rgb(53, 132, 201);
+}
+
+/*扣人模块*/
+.person{
+    width: 80%;
+    height: 490px;
+    position: relative;
+    background:linear-gradient(rgb(153, 244, 244) 0%,white 100%);
+    background-size: 100% 100%;
+    margin-left: 10%;
+    border-radius: 12px;
+}
+
+.identity{
+    width: 80%;
+    height: 490px;
+    position: relative;
+    background:linear-gradient(rgb(153, 244, 244) 0%,white 100%);
+    background-size: 100% 100%;
+    margin-left: 10%;
+    border-radius: 12px;
+}
+
+.goods{
+    width: 80%;
+    height: 490px;
+    position: relative;
+    background:linear-gradient(rgb(153, 244, 244) 0%,white 100%);
+    background-size: 100% 100%;
+    margin-left: 10%;
+    border-radius: 12px;
+}
+
+.backToHome{
+    margin-top:30px;
+    margin-left:25px;
+    font-size: 25px;
+    border-radius: 8px;
+    background-color: rgb(153, 244, 244);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: none;
+    outline: none;
+}
+
+.blockMain{
+    width: 80%;
+    height: 400px;
+    background-color: rgb(255, 250, 230);
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 10%;
+    border-radius: 12px;
+}
+
+.block-one{
+    width: 25%;
+    height: 300px;
+    background-color: white;
+    position: absolute;
+    margin-top: 40px;
+    margin-left: 10%;
+}
+
+.block-two{
+    width: 25%;
+    height: 300px;
+    background-color: white;
+    position: absolute;
+    margin-top: 40px;
+    margin-left: 40%;
+}
+
+.select-BGColor{
+    margin-left: 77%;
+    margin-top: 130px;
+}
+
+.download1{
+     margin-left: 77%;
+     margin-top: 70px;
+     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+     font-size: 25px;
+     color: white;
+     border-radius: 8px;
+     background-color: cornflowerblue;
+     border: none;
+     outline: none;
+ }
+/*扣物模块*/
+.block-three{
+    width: 30%;
+    height: 300px;
+    background-color: white;
+    position: absolute;
+    margin-top: 40px;
+    margin-left: 30%;
+}
+
+.download2{
+    margin-left: 77%;
+    margin-top: 180px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 25px;
+    color: white;
+    border-radius: 8px;
+    background-color: cornflowerblue;
+    border: none;
+    outline: none;
+}
+
+/*证件照模块*/
+.download3{
+    margin-left: 77%;
+    margin-top: 50px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 25px;
+    color: white;
+    border-radius: 8px;
+    background-color: cornflowerblue;
+    border: none;
+    outline: none;
+}
+/* 中间三个控件*/
+.middle{
+    position: absolute;
+    width: 80%;
+    height: 200px;
+    margin-left: 10%;
+}
+
+.goodsBtn{
+    width: 150px;
+    height: 150px;
+    background-image: url('/src/assets/4.jpg');
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 30%;
+    margin-top: 20px;
+    border-width: 3px;
+    border-color: aqua;
+}
+
+.identityBtn{
+    width: 150px;
+    height: 150px;
+    background-image: url('/src/assets/3.jpg');
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 45%;
+    margin-top: 20px;
+    border-width: 3px;
+    border-color: aqua;
+}
+
+.personBtn{
+    width: 150px;
+    height: 150px;
+    background-image: url('/src/assets/5.jpg');
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 60%;
+    margin-top: 20px;
+    border-width: 3px;
+    border-color: aqua;
+}
+
+/*下面部分*/
+.down{
+    width: 80%;
+    height: 600px;
+    margin-left: 10%;
+    margin-top: 200px;
+    position: absolute;
+    background-size: 100% 100%;
+    background-color: rgb(245, 246, 246);
+}
+
+.down-photo1{
+    width: 300px;
+    height: 400px;
+    position: absolute;
+    margin-left: 13%;
+    margin-top: 100px;
+    background-image: url('/src/assets/6.jpg');
+}
+
+.down-photo3{
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    margin-top: 150px;
+    margin-left: calc(50% - 110px);
+    background-image: url('/src/assets/8.png');
+    background-size: 100% 100%;
+}
+
+.down-photo2{
+    width: 300px;
+    height: 400px;
+    position: absolute;
+    margin-left: 65%;
+    margin-top: 100px;
+    background-image: url('/src/assets/7.jpg');
+}
+
+/*最下面文本部分*/
+.bottom{
+    width: 80%;
+    height: 400px;
+    position: absolute;
+    margin-left: 10%;
+    margin-top: 800px;
+    background-color:white;
+}
+
+.text1{
+    font-size: 80px;
+    position: absolute;
+    margin-top: 120px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-left: calc(50% - 360px);
+}
+
+.text2{
+    font-size: 40px;
+    position: absolute;
+    margin-top: 250px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-left: calc(50% - 120px);
+}
