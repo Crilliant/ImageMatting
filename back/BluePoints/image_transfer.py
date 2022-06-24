@@ -15,7 +15,7 @@ def allowed_file(filename):
 @bp.route('/upload', methods=['POST'])
 def upload_image():
     try:
-        img = request.files.get('img')
+        img = request.files.get('file')
         file_extension = '.' + img.filename.split('.')[1]
         new_file_name = generate_image_name() + file_extension
         file_path = os.path.join(image_upload_path, new_file_name)
@@ -39,9 +39,9 @@ def download_image():
 
 
 # TODO: 根据处理类型调用服务
-@bp.route('/segment')
+@bp.route('/segment', methods=['POST'])
 def segment_image():
-    pass
+    return jsonify({'status': 'success'})
 
 
 # TODO: 什么适合删除需要讨论

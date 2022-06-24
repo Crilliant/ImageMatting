@@ -9,7 +9,7 @@
     <div class="in1">
       <form enctype="multipart/form-data" method="post">
       <p type="primary" class="main-submit">提交图片</p>
-      <input ref="relFile" class="main-upload" type="file" :multiple="multiple" :accept="accept" @change="loadpic" >
+      <input ref="relFile" name="file" class="main-upload" type="file" :multiple="multiple" :accept="accept" @change="loadpic" >
       <div class="imgBox">
         <img id="cropedBigImg" :src="imageUrl" value='custom' alt="lorem ipsum dolor sit" data-address='' title="自定义背景"/>
       </div>
@@ -98,7 +98,6 @@ export default {
       model:"main",
       imageUrl:""
 
-
     }
   },watch:{
 
@@ -107,9 +106,24 @@ export default {
     send_message(){
       request.post('/user',{}).then()
     },
+    translateBase64ImgToFile(base64,filename,contentType){
+      let arr = base64.split(',')  //去掉base64格式图片的头部
+      let bstr = atob(arr[1])   //atob()方法将数据解码
+      let length = bstr.length
+      let u8arr = new Uint8Array(length);
+      while(length--){
+         u8arr[length] =  bstr.charCodeAt(length) //返回指定位置的字符的 Unicode 编码
+      }
+      return new File([u8arr],filename,{type:contentType})
+    },
     process_person(){
       this.model='person_photo';
-      request.post('/user',{file:this.imageUrl}).then()
+      let file = this.translateBase64ImgToFile(this.imageUrl, 'test.png', 'image/png')
+      let param = new FormData();
+      param.append('file',file,file.name)
+      request.post('/api/image/upload',param).then()
+      //request.post('/test').then()
+
 
     },
     process_goods(){
