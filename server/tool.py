@@ -86,7 +86,6 @@ def oilpainting(img_dir, mask_dir , save_dir):
         cv.imwrite(os.path.join(save_dir, pure_img_name), result)
         print(file+" is finished.")
 
-# 用于修改背景
 def overlap(top_path, btm_path, save_dir):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -95,24 +94,15 @@ def overlap(top_path, btm_path, save_dir):
 
     top = cv.imread(top_path, cv.IMREAD_UNCHANGED)      # 读取四通道
     btm = cv.imread(btm_path)
-    top_shape = top.shape
-    print("firstly, btm shape ")
-    print(btm.shape)
-    # cv.imshow("origin btm", btm)
-    btm_shape = (top_shape[1], top_shape[0])
-    btm = cv.resize(btm, btm_shape)
-    cv.imwrite(os.path.join(save_dir, "btm_resize.png"), btm)
-    # cv.imshow("resize", btm)
-    # cv.waitKey()
-    # cv.destroyAllWindows()
-    # btm_shape = btm.shape
+
+    btm = cv.resize(btm, (top.shape[1], top.shape[0]))
     print("top and btm shapes:")
-    print(top_shape)
+    print(top.shape)
     print(btm.shape)
-    for i in range(0, top_shape[0]):  # 访问所有行
-        for j in range(0, top_shape[1]):  # 访问所有列
+    for i in range(0, top.shape[0]):  # 访问所有行
+        for j in range(0, top.shape[1]):  # 访问所有列
             if (top[i][j][3] == 0):
-                top[i][j][:2] = btm[i][j][:2]
+                top[i][j][:3] = btm[i][j][:3]
                 top[i][j][3] = 255
 
     cv.imwrite(os.path.join(save_dir, img_name), top)
@@ -131,6 +121,6 @@ if __name__ == "__main__":
     # oilpainting(origin_dir, mask_dir, "test_data/mytest/oilpaint")
     # print("=======oilpaint ok======")
 
-    overlap(r"E:\Code\u2_net\U-2-Net\test_data\mytest/metting/cat.png", r"E:\Code\u2_net\U-2-Net\test_data/test_images/alask.png", save_dir)
+    overlap(r"test_data\mytest/metting/cat.png", r"test_data/test_images/alask.png", save_dir)
 
 
