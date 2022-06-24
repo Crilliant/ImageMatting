@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from BluePeints.image_transfer import bp as transfer
+from BluePoints.image_transfer import bp as transfer
 
 app = Flask(__name__)
 
