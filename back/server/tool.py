@@ -11,42 +11,68 @@ import cv2 as cv
 import back.server.u2net_test as u2net
 
 
-# 识别单张图片（路径imp_path）显著物体，并保存到meetter_dir
-# mask_dir为黑白掩码保存的目录
-def img_matting(img_path, mask_dir, metted_dir):
-    u2net.inference_img(img_path, mask_dir)
-    print("finish the inference")
-    if not os.path.exists(metted_dir):
-        os.makedirs(metted_dir)
-
+def get_filename(img_path):
     pure_img_name = os.path.basename(img_path)
     pure_img_name = pure_img_name.split('.')[-2] + ".png"
+    return pure_img_name
+
+
+def get_img_and(img_path, mask_path):
+    img = cv.imread(os.path.join(img_path))
+    mask = cv.imread(mask_path)
+    result = cv.bitwise_and(img, mask)  # 必须是相同通道数
+    mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)  # 灰度图
+    result = cv.cvtColor(result, cv.COLOR_BGR2BGRA)  # 4通道
+    return result, mask
+
+
+# 识别单张图片（路径imp_path）显著物体，并保存到meetter_dir
+# mask_dir为黑白掩码保存的目录
+def img_matting(img_path, mask_dir, matted_dir):
+    u2net.inference_img(img_path, mask_dir)
+    print("finish the inference")
+    if not os.path.exists(matted_dir):
+        os.makedirs(matted_dir)
+
+    pure_img_name = get_filename(img_path)
 
     if not os.path.exists(os.path.join(mask_dir, pure_img_name)):
         print("no exist" + os.path.join(mask_dir, pure_img_name))
 
     print(pure_img_name + " is being met...")
-    img = cv.imread(os.path.join(img_path))
-    mask = cv.imread(os.path.join(mask_dir, pure_img_name))
-    print(img.shape)
-    print(mask.shape)
-
-    result = cv.bitwise_and(img, mask)  # 必须是相同通道数
-    mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)  # 灰度图
-    result = cv.cvtColor(result, cv.COLOR_BGR2BGRA)  # 4通道
-
+    result, mask = get_img_and(img_path, os.path.join(mask_dir, pure_img_name))
     for i in range(0, result.shape[0]):  # 访问所有行
         for j in range(0, result.shape[1]):  # 访问所有列
             if mask[i][j] < 100:
-                result[i, j, 3] = 0
-    cv.imwrite(os.path.join(metted_dir, pure_img_name), result)
+                result[i, j, 3] = 255
+    cv.imwrite(os.path.join(matted_dir, pure_img_name), result)
     print(pure_img_name + " is finished.")
 
 
+# 根据mask将背景色换为value值
+def change_backcolor(image, mask, value):
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            if mask[i, j] < 100:
+                image[i, j] = value
+    return image
+
+
+# 证件照功能
+def get_identification_image(img_path, mask_dir, matted_dir):
+    u2net.inference_img(img_path, mask_dir)
+    pure_img_name = get_filename(img_path)
+    result, mask = get_img_and(img_path, os.path.join(mask_dir, pure_img_name))
+
+    result = change_backcolor(result, mask, value=[0, 0, 255, 255])
+    cv.imwrite(os.path.join(matted_dir, pure_img_name), result)
+    print(pure_img_name + "color changed.")
+
+
 # met一个文件夹的图片
-def img_metting_dir(img_dir, mask_dir, metted_dir):
-    if not os.path.exists(metted_dir):
-        os.makedirs(metted_dir)
+def img_matting_dir(img_dir, mask_dir, matted_dir):
+    if not os.path.exists(matted_dir):
+        os.makedirs(matted_dir)
 
     for file in os.listdir(img_dir):
         pure_img_name = file.split('.')[-2] + '.png'
@@ -66,7 +92,7 @@ def img_metting_dir(img_dir, mask_dir, metted_dir):
             for j in range(0, result.shape[1]):  # 访问所有列
                 if mask[i][j] < 100:
                     result[i, j, 3] = 0
-        cv.imwrite(os.path.join(metted_dir, pure_img_name), result)
+        cv.imwrite(os.path.join(matted_dir, pure_img_name), result)
         print(file + " is finished.")
 
 
@@ -145,10 +171,10 @@ def overlap(top_path, btm_path, save_dir):
 
 
 if __name__ == "__main__":
-    filename_test = '0.jpg'
+    filename_test = 'wallpaper.png'
     '/home/mloser/Program/Python/ImageMatting/back/static/'
     file_path = os.path.join('/home/mloser/Program/Python/ImageMatting/back/static/Upload', filename_test)
     mask_path = os.path.join('/home/mloser/Program/Python/ImageMatting/back/static/Mask')
     save_path = os.path.join('/home/mloser/Program/Python/ImageMatting/back/static/Download')
     # executor.submit(img_metting, file_path, mask_path, save_path)
-    img_matting(file_path, mask_path, save_path)
+    get_identification_image(file_path, mask_path, save_path)

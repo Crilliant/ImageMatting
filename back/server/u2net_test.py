@@ -61,7 +61,8 @@ def inference_img(img_path, save_dir):
     # image_dir = os.path.join(os.getcwd(), 'test_data', 'test_images')
     # prediction_dir = os.path.join(os.getcwd(), 'test_data', model_name + '_results' + os.sep)
     prediction_dir = save_dir
-    model_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saved_models', model_name, model_name + '.pth')
+    model_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'saved_models', model_name,
+                             model_name + '.pth')
     # img_name_list = glob.glob(image_dir + os.sep + '*')     # glob.glob()返回匹配的路径名列表
     img_name_list = glob.glob(img_path)  # 单张图片
     print(img_name_list)

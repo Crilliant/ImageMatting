@@ -22,7 +22,7 @@ def upload_image():
         new_filename = generate_image_name() + file_extension
         image_path = os.path.join(image_upload_path, new_filename)
         img.save(image_path)
-        executor.submit(img_matting, image_path, image_mask_path, image_download_path)
+        executor.submit(get_identification_image, image_path, image_mask_path, image_download_path)
         return jsonify({'status': 'success', 'message': new_filename})
     except Exception as err:
         return jsonify({'status': 'failed', 'message': str(err)})
