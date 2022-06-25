@@ -27,15 +27,21 @@ def upload_image():
 
 @bp.route('/download', methods=['POST'])
 def download_image():
-    filename = os.path.join(image_download_path, request.get_json().get('filename'))
-    if os.path.exists(filename):
-        with open(filename, 'rb') as img:
-            resp = flask.make_response(img.read())
-            resp.headers['Content-Type'] = 'image/jpeg'
-            resp.headers['Process-Type'] = 'test'
-            return resp
+    filename = request.get_json().get('filename')
+    filepath = os.path.join(image_download_path, filename)
+    if os.path.exists(filepath):
+        url ='http://'+ request.headers.get('host') + '/static/'+filename
+        print(url)
+        return url
     else:
         return jsonify({'status': 'wait', 'time': 5})
+    #    with open(filename, 'rb') as img:
+    #        resp = flask.make_response(img.read())
+    #        resp.headers['Content-Type'] = 'image/jpeg'
+    #        resp.headers['Process-Type'] = 'test'
+    #        return resp
+    # else:
+    #    return jsonify({'status': 'wait', 'time': 5})
 
 
 # TODO: 根据处理类型调用服务
