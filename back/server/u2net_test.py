@@ -30,7 +30,7 @@ def normPRED(d):
 
     return dn
 
-
+# image_name为原图路径
 def save_output(image_name, pred, d_dir):
 
     predict = pred
@@ -44,27 +44,30 @@ def save_output(image_name, pred, d_dir):
 
     pb_np = np.array(imo)
 
-    aaa = img_name.split(".")
-    bbb = aaa[0:-1]
-    imidx = bbb[0]
-    for i in range(1, len(bbb)):
-        imidx = imidx + "." + bbb[i]
+    # aaa = img_name.split(".")
+    # bbb = aaa[0:-1]  # 正序，不算最后一个
+    # imidx = bbb[0]
+    # for i in range(1, len(bbb)):
+    #     imidx = imidx + "." + bbb[i]
+    pure_img_name = os.path.basename(image_name)
+    pure_img_name = pure_img_name.split('.')[-2] + ".png"
 
-    imo.save(d_dir+imidx+'.png')
+    imo.save(d_dir+"/"+pure_img_name)
 
-def main():
+def inference_img(img_path, save_dir):
 
     # --------- 1. get image path and name ---------
     # model_name='u2net'
     model_name = 'u2netp'
 
 
-    image_dir = os.path.join(os.getcwd(), 'test_data', 'test_images')
-    prediction_dir = os.path.join(os.getcwd(), 'test_data', model_name + '_results' + os.sep)
-
+    # image_dir = os.path.join(os.getcwd(), 'test_data', 'test_images')
+    # prediction_dir = os.path.join(os.getcwd(), 'test_data', model_name + '_results' + os.sep)
+    prediction_dir = save_dir
     model_dir = os.path.join(os.getcwd(), 'saved_models', model_name, model_name + '.pth')
 
-    img_name_list = glob.glob(image_dir + os.sep + '*')     # glob.glob()返回匹配的路径名列表
+    # img_name_list = glob.glob(image_dir + os.sep + '*')     # glob.glob()返回匹配的路径名列表
+    img_name_list = glob.glob(img_path)         # 单张图片
     print(img_name_list)
 
     # --------- 2. dataloader ---------
@@ -109,6 +112,8 @@ def main():
         else:
             inputs_test = Variable(inputs_test)
 
+        # RuntimeError: CuDNN error: CUDNN_STATUS_INTERNAL_ERROR
+        torch.backends.cudnn.benchmark = False
         d1, d2, d3, d4, d5, d6, d7 = net(inputs_test)
 
         # normalization
@@ -124,4 +129,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # torch.backends.cudnn.benchmark = True
+    inference_img()
