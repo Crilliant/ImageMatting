@@ -1,13 +1,13 @@
-import flask
-import os
 from flask import Blueprint, request, jsonify
-from back.config import image_upload_path, image_download_path
+from back.config import *
 from back.BluePoints.utils import generate_image_name
-import threading
+from concurrent.futures import ThreadPoolExecutor
 from back.server.tool import *
+
 
 bp = Blueprint('transfer', __name__, url_prefix='/api/image')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'JPG', 'PNG'}
+executor = ThreadPoolExecutor()
 
 
 def allowed_file(filename):
@@ -19,12 +19,11 @@ def upload_image():
     try:
         img = request.files.get('file')
         file_extension = '.' + img.filename.split('.')[1]
-        new_file_name = generate_image_name() + file_extension
-        file_path = os.path.join(image_upload_path, new_file_name)
-        img.save(file_path)
-        # TODO: 异步处理
-        threading.Thread()
-        return jsonify({'status': 'success', 'message': new_file_name})
+        new_filename = generate_image_name() + file_extension
+        image_path = os.path.join(image_upload_path, new_filename)
+        img.save(image_path)
+        executor.submit(get_identification_image, image_path, image_mask_path, image_download_path)
+        return jsonify({'status': 'success', 'message': new_filename})
     except Exception as err:
         return jsonify({'status': 'failed', 'message': str(err)})
 
@@ -39,19 +38,6 @@ def download_image():
         return url
     else:
         return jsonify({'status': 'wait', 'time': 5})
-    #    with open(filename, 'rb') as img:
-    #        resp = flask.make_response(img.read())
-    #        resp.headers['Content-Type'] = 'image/jpeg'
-    #        resp.headers['Process-Type'] = 'test'
-    #        return resp
-    # else:
-    #    return jsonify({'status': 'wait', 'time': 5})
-
-
-# TODO: 根据处理类型调用服务
-@bp.route('/segment', methods=['POST'])
-def segment_image():
-    return jsonify({'status': 'success'})
 
 
 # TODO: 什么适合删除需要讨论
@@ -66,3 +52,10 @@ def delete_image():
         return jsonify({'status': 'success'})
     except Exception as err:
         return jsonify({'status': 'failed', 'message': str(err)})
+
+
+if __name__ == '__main__':
+    test_filename = 'wallpaper.png'
+    file_path = os.path.join(image_upload_path, test_filename)
+    print(image_mask_path)
+    executor.submit(img_matting(file_path, image_mask_path, image_download_path))
