@@ -8,9 +8,40 @@ import numpy as np
 from PIL import Image
 import glob
 import cv2 as cv
+import u2net_test as u2net
 
+# 识别单张图片（路径imp_path）显著物体，并保存到meetter_dir
+# mask_dir为黑白掩码保存的目录
+def img_metting(img_path, mask_dir, metted_dir):
 
-def img_metting(img_dir, mask_dir, metted_dir):
+    u2net.inference_img(img_path, mask_dir)
+    print("finish the inference")
+    if not os.path.exists(metted_dir):
+        os.makedirs(metted_dir)
+
+    pure_img_name = os.path.basename(img_path)
+    pure_img_name = pure_img_name.split('.')[-2]+".png"
+
+    if not os.path.exists(os.path.join(mask_dir, pure_img_name)):
+        print("no exist" + os.path.join(mask_dir, pure_img_name))
+
+    print(pure_img_name+" is being met...")
+    img = cv.imread(os.path.join(img_path))
+    mask = cv.imread(os.path.join(mask_dir, pure_img_name))
+
+    result = cv.bitwise_and(img, mask)          # 必须是相同通道数
+    mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)  # 灰度图
+    result = cv.cvtColor(result, cv.COLOR_BGR2BGRA)  # 4通道
+
+    for i in range(0, result.shape[0]):  # 访问所有行
+        for j in range(0, result.shape[1]):  # 访问所有列
+            if mask[i][j] < 100:
+                result[i, j, 3] = 0
+    cv.imwrite(os.path.join(metted_dir, pure_img_name), result)
+    print(pure_img_name+" is finished.")
+
+# met一个文件夹的图片
+def img_metting_dir(img_dir, mask_dir, metted_dir):
     if not os.path.exists(metted_dir):
         os.makedirs(metted_dir)
 
@@ -35,7 +66,7 @@ def img_metting(img_dir, mask_dir, metted_dir):
         cv.imwrite(os.path.join(metted_dir, pure_img_name), result)
         print(file+" is finished.")
 
-
+# 水彩
 def watercolor(img_dir, mask_dir , save_dir):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -60,7 +91,7 @@ def watercolor(img_dir, mask_dir , save_dir):
         cv.imwrite(os.path.join(save_dir, pure_img_name), result)
         print(file+" is finished.")
 
-
+# 油画，弃用
 def oilpainting(img_dir, mask_dir , save_dir):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -121,6 +152,6 @@ if __name__ == "__main__":
     # oilpainting(origin_dir, mask_dir, "test_data/mytest/oilpaint")
     # print("=======oilpaint ok======")
 
-    overlap(r"test_data\mytest/metting/cat.png", r"test_data/test_images/alask.png", save_dir)
-
+    # overlap(r"test_data\mytest/metting/cat.png", r"test_data/test_images/alask.png", save_dir)
+    img_metting(origin_dir+"/fox.png", mask_dir, save_dir)
 
