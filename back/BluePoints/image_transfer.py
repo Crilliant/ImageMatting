@@ -29,12 +29,12 @@ def upload_image():
         return jsonify({'status': 'failed', 'message': str(err)})
 
 
-@bp.route('/download', methods=['POST'])
+@bp.route('/download', methods=['POST', 'GET'])
 def download_image():
     filename = request.get_json().get('filename')
     filepath = os.path.join(image_download_path, filename)
     if os.path.exists(filepath):
-        url ='http://'+ request.headers.get('host') + '/static/'+filename
+        url = 'http://' + request.headers.get('host') + '/static/Download/' + filename
         print(url)
         return url
     else:

@@ -6,7 +6,8 @@ app = Flask(__name__)
 
 app.register_blueprint(transfer)
 
-CORS(app,resource=r'/*')
+CORS(app, resource=r'/*')
+
 
 @app.route('/test', methods=['POST'])
 def index():
