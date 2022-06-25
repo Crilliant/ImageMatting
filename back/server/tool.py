@@ -10,26 +10,28 @@ import glob
 import cv2 as cv
 import back.server.u2net_test as u2net
 
+
 # 识别单张图片（路径imp_path）显著物体，并保存到meetter_dir
 # mask_dir为黑白掩码保存的目录
-def img_metting(img_path, mask_dir, metted_dir):
-
+def img_matting(img_path, mask_dir, metted_dir):
     u2net.inference_img(img_path, mask_dir)
     print("finish the inference")
     if not os.path.exists(metted_dir):
         os.makedirs(metted_dir)
 
     pure_img_name = os.path.basename(img_path)
-    pure_img_name = pure_img_name.split('.')[-2]+".png"
+    pure_img_name = pure_img_name.split('.')[-2] + ".png"
 
     if not os.path.exists(os.path.join(mask_dir, pure_img_name)):
         print("no exist" + os.path.join(mask_dir, pure_img_name))
 
-    print(pure_img_name+" is being met...")
+    print(pure_img_name + " is being met...")
     img = cv.imread(os.path.join(img_path))
     mask = cv.imread(os.path.join(mask_dir, pure_img_name))
+    print(img.shape)
+    print(mask.shape)
 
-    result = cv.bitwise_and(img, mask)          # 必须是相同通道数
+    result = cv.bitwise_and(img, mask)  # 必须是相同通道数
     mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)  # 灰度图
     result = cv.cvtColor(result, cv.COLOR_BGR2BGRA)  # 4通道
 
@@ -38,7 +40,8 @@ def img_metting(img_path, mask_dir, metted_dir):
             if mask[i][j] < 100:
                 result[i, j, 3] = 0
     cv.imwrite(os.path.join(metted_dir, pure_img_name), result)
-    print(pure_img_name+" is finished.")
+    print(pure_img_name + " is finished.")
+
 
 # met一个文件夹的图片
 def img_metting_dir(img_dir, mask_dir, metted_dir):
@@ -46,16 +49,16 @@ def img_metting_dir(img_dir, mask_dir, metted_dir):
         os.makedirs(metted_dir)
 
     for file in os.listdir(img_dir):
-        pure_img_name = file.split('.')[-2]+'.png'
+        pure_img_name = file.split('.')[-2] + '.png'
 
         if not os.path.exists(os.path.join(mask_dir, pure_img_name)):
             print("no exist" + os.path.join(mask_dir, pure_img_name))
             continue
-        print(pure_img_name+" is being met...")
+        print(pure_img_name + " is being met...")
         img = cv.imread(os.path.join(img_dir, file))
         mask = cv.imread(os.path.join(mask_dir, pure_img_name))
 
-        result = cv.bitwise_and(img, mask)          # 必须是相同通道数
+        result = cv.bitwise_and(img, mask)  # 必须是相同通道数
         mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)  # 灰度图
         result = cv.cvtColor(result, cv.COLOR_BGR2BGRA)  # 4通道
 
@@ -64,15 +67,16 @@ def img_metting_dir(img_dir, mask_dir, metted_dir):
                 if mask[i][j] < 100:
                     result[i, j, 3] = 0
         cv.imwrite(os.path.join(metted_dir, pure_img_name), result)
-        print(file+" is finished.")
+        print(file + " is finished.")
+
 
 # 水彩
-def watercolor(img_dir, mask_dir , save_dir):
+def watercolor(img_dir, mask_dir, save_dir):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
     for file in os.listdir(img_dir):
-        pure_img_name = file.split('.')[-2]+'.png'
+        pure_img_name = file.split('.')[-2] + '.png'
         if not os.path.exists(os.path.join(mask_dir, pure_img_name)):
             print("no exist" + os.path.join(mask_dir, pure_img_name))
             continue
@@ -80,24 +84,24 @@ def watercolor(img_dir, mask_dir , save_dir):
         result = cv.stylization(img, sigma_s=60, sigma_r=0.6)
         mask = cv.imread(os.path.join(mask_dir, pure_img_name))
         result = cv.bitwise_and(result, mask)
-        mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)     # 灰度图
-        result = cv.cvtColor(result, cv.COLOR_BGR2BGRA)    # 4通道
-
+        mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)  # 灰度图
+        result = cv.cvtColor(result, cv.COLOR_BGR2BGRA)  # 4通道
 
         for i in range(0, result.shape[0]):  # 访问所有行
             for j in range(0, result.shape[1]):  # 访问所有列
                 if mask[i][j] < 100:
                     result[i, j, 3] = 1
         cv.imwrite(os.path.join(save_dir, pure_img_name), result)
-        print(file+" is finished.")
+        print(file + " is finished.")
+
 
 # 油画，弃用
-def oilpainting(img_dir, mask_dir , save_dir):
+def oilpainting(img_dir, mask_dir, save_dir):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
     for file in os.listdir(img_dir):
-        pure_img_name = file.split('.')[-2]+'.png'
+        pure_img_name = file.split('.')[-2] + '.png'
         if not os.path.exists(os.path.join(mask_dir, pure_img_name)):
             print("no exist" + os.path.join(mask_dir, pure_img_name))
             continue
@@ -107,15 +111,16 @@ def oilpainting(img_dir, mask_dir , save_dir):
         mask = cv.imread(os.path.join(mask_dir, pure_img_name))
         result = cv.bitwise_and(result, mask)
 
-        mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)     # 灰度图
-        result = cv.cvtColor(result, cv.COLOR_BGR2BGRA)    # 4通道
+        mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)  # 灰度图
+        result = cv.cvtColor(result, cv.COLOR_BGR2BGRA)  # 4通道
 
         for i in range(0, result.shape[0]):  # 访问所有行
             for j in range(0, result.shape[1]):  # 访问所有列
                 if mask[i][j] < 100:
                     result[i, j, 3] = 1
         cv.imwrite(os.path.join(save_dir, pure_img_name), result)
-        print(file+" is finished.")
+        print(file + " is finished.")
+
 
 def overlap(top_path, btm_path, save_dir):
     if not os.path.exists(save_dir):
@@ -123,7 +128,7 @@ def overlap(top_path, btm_path, save_dir):
 
     img_name = top_path.split('/')[-1]
 
-    top = cv.imread(top_path, cv.IMREAD_UNCHANGED)      # 读取四通道
+    top = cv.imread(top_path, cv.IMREAD_UNCHANGED)  # 读取四通道
     btm = cv.imread(btm_path)
 
     btm = cv.resize(btm, (top.shape[1], top.shape[0]))
@@ -140,18 +145,10 @@ def overlap(top_path, btm_path, save_dir):
 
 
 if __name__ == "__main__":
-    origin_dir = "test_data/test_images"
-    mask_dir = "test_data/u2netp_results"
-    save_dir = "test_data/mytest"
-    cat_path = r'E:\Code\u2_net\U-2-Net\test_data\mytest/metting/cat.png'
-
-    # img_metting(origin_dir, mask_dir, "test_data/mytest/metting")
-    # print("=======metting ok======")
-    # watercolor(origin_dir, mask_dir, "test_data/mytest/watercolor")
-    # print("=======watercolor ok======")
-    # oilpainting(origin_dir, mask_dir, "test_data/mytest/oilpaint")
-    # print("=======oilpaint ok======")
-
-    # overlap(r"test_data\mytest/metting/cat.png", r"test_data/test_images/alask.png", save_dir)
-    img_metting(origin_dir+"/fox.png", mask_dir, save_dir)
-
+    filename_test = '0.jpg'
+    '/home/mloser/Program/Python/ImageMatting/back/static/'
+    file_path = os.path.join('/home/mloser/Program/Python/ImageMatting/back/static/Upload', filename_test)
+    mask_path = os.path.join('/home/mloser/Program/Python/ImageMatting/back/static/Mask')
+    save_path = os.path.join('/home/mloser/Program/Python/ImageMatting/back/static/Download')
+    # executor.submit(img_metting, file_path, mask_path, save_path)
+    img_matting(file_path, mask_path, save_path)

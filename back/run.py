@@ -8,11 +8,5 @@ app.register_blueprint(transfer)
 
 CORS(app, resource=r'/*')
 
-
-@app.route('/test', methods=['POST'])
-def index():
-    return Response('test')
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
