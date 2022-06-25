@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 from back.config import image_upload_path, image_download_path
 from back.BluePoints.utils import generate_image_name
 import threading
-from back.server.tool import *
+# from back.server.tool import *
 
 bp = Blueprint('transfer', __name__, url_prefix='/api/image')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'JPG', 'PNG'}
