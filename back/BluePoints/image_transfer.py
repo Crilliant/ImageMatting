@@ -3,6 +3,8 @@ import os
 from flask import Blueprint, request, jsonify
 from back.config import image_upload_path, image_download_path
 from back.BluePoints.utils import generate_image_name
+import threading
+from server.tool import *
 
 bp = Blueprint('transfer', __name__, url_prefix='/api/image')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'JPG', 'PNG'}
@@ -20,6 +22,8 @@ def upload_image():
         new_file_name = generate_image_name() + file_extension
         file_path = os.path.join(image_upload_path, new_file_name)
         img.save(file_path)
+        # TODO: 异步处理
+        threading.Thread()
         return jsonify({'status': 'success', 'message': new_file_name})
     except Exception as err:
         return jsonify({'status': 'failed', 'message': str(err)})

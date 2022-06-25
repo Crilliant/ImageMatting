@@ -2,7 +2,7 @@
 
 本仓库为WHU2022年六月第三学期实训项目，图像前景分隔。
 
-<img src="img/logo.png" alt="logo" style="zoom: 13%;" />
+<img src="img/sea_cat.png" alt="logo" style="zoom: 13%;" />
 
 ---
 
@@ -14,10 +14,33 @@
 
 ### 工程结构
 
-- front：前端
-- back：后端
-- server：图片处理模型等代码
-- img：存放readme的图片
+```
+├─back
+├─front
+│  ├─public
+│  └─src
+│      ├─assets
+│      ├─components
+│      ├─router
+│      ├─store
+│      └─views
+├─img
+└─server
+    ├─model
+    │  └─__pycache__
+    ├─saved_models
+    │  └─u2netp	：保存的模型参数
+    └─test_data	：用于测试的图片数据
+        ├─mytest
+        │  └─metting
+        ├─test_human_images
+        ├─test_images
+        └─u2netp_results
+```
+
+
+
+
 
 ---
 
