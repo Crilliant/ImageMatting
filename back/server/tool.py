@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 import glob
 import cv2 as cv
-import u2net_test as u2net
+import back.server.u2net_test as u2net
 
 # 识别单张图片（路径imp_path）显著物体，并保存到meetter_dir
 # mask_dir为黑白掩码保存的目录
