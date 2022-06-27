@@ -1,0 +1,9 @@
+[submodule "ImageMattingBackEnd"]
+	path = ImageMattingBackEnd
+	url = https://github.com/Crilliant/ImageMattingBackEnd
+[submodule "BackEnd"]
+	path = BackEnd
+	url = https://github.com/Crilliant/ImageMattingBackEnd
+[submodule "FrontEnd"]
+	path = FrontEnd
+	url = https://github.com/Crilliant/ImageMattingFrontEnd
